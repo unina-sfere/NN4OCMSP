@@ -147,6 +147,9 @@ plt.show()
 
 ```
 
+![](https://github.com/unina-sfere/NN4OCMSP/blob/main/README_Figure/plot_DeltaT_PhaseI_train_A.png)
+
+
 ### Neural Network training
 
 ``` python
@@ -247,6 +250,9 @@ plt.show()
 
 ```
 
+![](https://github.com/unina-sfere/NN4OCMSP/blob/main/README_Figure/plot_DeltaT_PhaseII_train_B.png)
+
+
 ``` python
 
 # Compute the overall mean and the range for each sample
@@ -265,6 +271,7 @@ fig_control_chart = plt.figure(figsize=fig_size)
 fig_control_chart= control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overall_mean, sample_range)
 
 ```
+![](https://github.com/unina-sfere/NN4OCMSP/blob/main/README_Figure/plot_control_charts_train_B.png)
 
 ``` python
 
@@ -278,4 +285,4 @@ pred[8]
 ```
 array([0, 0, 0, 0, 0, 1])
 
-![](https://github.com/unina-sfere/NN4MSP/blob/main/README_Figure/plot_residuals_PhaseII_train_3.png)
+
