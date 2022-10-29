@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '1.02' 
+VERSION = '1.03' 
 DESCRIPTION = 'Neural network out-of-control signal interpretation in multiple stream processes'
 
 def readme():
