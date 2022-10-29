@@ -12,7 +12,7 @@ from keras.layers import Dense
 
 # Functions
 
-def dataset_generator(s, n, num_samples, mu, sigmaA_std, sigmaE_std, alpha_sim):
+def dataset_generator(s, n, num_samples, mu, sigmaA, sigmae, alpha_sim):
     
     """ Return the simulated data set, as described in the reference paper, to 
         train and design the Neural Network for multi-label classification.
@@ -37,9 +37,9 @@ def dataset_generator(s, n, num_samples, mu, sigmaA_std, sigmaE_std, alpha_sim):
     # MSP control charts    
     num_neg_samples = 100000
     np.random.seed(10)
-    negative_samples = np.random.normal(loc = mu, scale = sigmaE_std, size = (num_neg_samples *n ,s))
+    negative_samples = np.random.normal(loc = mu, scale = sigmae, size = (num_neg_samples *n ,s))
     np.random.seed(11)
-    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_neg_samples * n,1))
+    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA, size = (num_neg_samples * n,1))
     negative_samples = negative_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
     sample_range = negative_samples.max(axis=1) - negative_samples.min(axis=1) 
     UCL_range = np.quantile(sample_range, 1 - alpha_sim)
@@ -58,10 +58,10 @@ def dataset_generator(s, n, num_samples, mu, sigmaA_std, sigmaE_std, alpha_sim):
                 positive_samples_scenario = np.zeros((1, s+2))
                 while(count < num_samples):
                     np.random.seed(1 + count) # seed 
-                    positive_samples = np.random.normal(loc = mu, scale = sigmaE_std, size = (num_samples*n,s))
+                    positive_samples = np.random.normal(loc = mu, scale = sigmae, size = (num_samples*n,s))
                     np.random.seed(1 + count + 1)
-                    positive_samples = positive_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_samples*n,1))
-                    positive_samples[:, np.array(l)] = positive_samples[:, np.array(l)] + i*sigmaE_std
+                    positive_samples = positive_samples + np.random.normal(loc = mu, scale = sigmaA, size = (num_samples*n,1))
+                    positive_samples[:, np.array(l)] = positive_samples[:, np.array(l)] + i*sigmae
                     positive_samples = positive_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
                     
                     overall_mean = positive_samples.mean(axis=1) 
@@ -161,8 +161,8 @@ def range_overall_mean(data):
     return overall_mean, sample_range 
 
 
-def control_charts(fig_control_chart, s, n, mu, sigmaA_std, sigmaE_std, alpha_sim, overall_mean,
-                   sample_range, xlabel = "", ylabel = ""):
+def control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overall_mean,
+                   sample_range):
 
     """  
     Plot the range and the overall mean control charts 
@@ -187,37 +187,37 @@ def control_charts(fig_control_chart, s, n, mu, sigmaA_std, sigmaE_std, alpha_si
         
     num_neg_samples = 100000
     np.random.seed(10)
-    negative_samples = np.random.normal(loc = mu, scale = sigmaE_std, size = (num_neg_samples *n ,s))
+    negative_samples = np.random.normal(loc = mu, scale = sigmae, size = (num_neg_samples *n ,s))
     np.random.seed(11)
-    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_neg_samples * n,1))
+    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA, size = (num_neg_samples * n,1))
     negative_samples = negative_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
-    sample_range = negative_samples.max(axis=1) - negative_samples.min(axis=1) 
+    sample_rangeIC = negative_samples.max(axis=1) - negative_samples.min(axis=1) 
     alpha_sim = alpha_sim
-    UCL_range = np.quantile(sample_range, 1 - alpha_sim)
+    UCL_range = np.quantile(sample_rangeIC, 1 - alpha_sim)
     sample_average = negative_samples.mean(axis=1)     
     UCL_average = np.quantile(sample_average, 1 - alpha_sim/2)
     
-    
+    dim = overall_mean.shape[0]
+        
     # f = plt.figure(figsize=(12,6))
     ax1 = fig_control_chart.add_subplot(121)
-    x = np.arange(1,16,1)
+    x = np.arange(1,dim +1,1)
     ax1.plot(x, overall_mean, color='black', ls='-', marker='o')
     ax1.axhline(UCL_average, color="red", label = "UCL")
     ax1.axhline(-UCL_average, color="red", label = "LCL")
-    plt.xlabel(xlabel, fontsize=12)
-    plt.ylabel(xlabel, fontsize=12)
-    
+    plt.xlabel('Subgroup', fontsize=12)
+    plt.ylabel('Overall mean', fontsize=12)    
     plt.tick_params(axis='both', which='major', size = 7, width = 1 , direction = 'out', labelsize = 10)
-    plt.xticks(np.arange(1, 16, 1))
+    plt.xticks(np.arange(1, dim + 1, 1))
     
     ax2 = fig_control_chart.add_subplot(122)
-    x = np.arange(1,16,1)
+    x = np.arange(1,dim +1,1)
     ax2.plot(x, sample_range, color='black', ls='-', marker='o')
     ax2.axhline(UCL_range, color="red", label = "UCL")
     plt.xlabel('Subgroup', fontsize=12)
     plt.ylabel('Range', fontsize=12)
     plt.tick_params(axis='both', which='major', size = 7, width = 1 , direction = 'out', labelsize = 10)
-    plt.xticks(np.arange(1, 16, 1))
+    plt.xticks(np.arange(1, dim +1, 1))
     
     return fig_control_chart
 
@@ -246,20 +246,23 @@ def prediction(data, classifier, scaler, overall_mean, sample_range):
     return data_pred
     
     
-def source_variance(data):
+def phaseI_estimation(data):
     """
-    Compute the process variability and the variability between streams
+    Compute the mean, the process variability and the variability between streams
     using standard one-way ANOVA techniques45
     
     # Parameters
         data: array_like, array containing numbers whose predictions are desired,
         
     # Returns
+        mu: int, process mean 
         sigmae: int, standard deviation of the common stream component
         sigmaA: int, standard deviation of the individual stream component
     
         
     """     
+    
+    mu = np.round(np.mean(data), decimals = 2) 
     
     sum_sigmae = 0
 
@@ -269,7 +272,7 @@ def source_variance(data):
             sum_sigmae = sum_sigmae + (data[i,j] - mean_row)**2
             
     sigmae2 =  sum_sigmae/(data.shape[0]*(data.shape[1]-1))       
-    sigmae = math.sqrt(sigmae2)
+    sigmae = np.round(math.sqrt(sigmae2), decimals = 2)
 
     
     sum_sigmaA = 0
@@ -281,9 +284,9 @@ def source_variance(data):
         sum_sigmaA = sum_sigmaA + (mean_row - overall_mean)**2
             
     sigmaeA2 =  sum_sigmaA/(data.shape[0] - 1) - sigmae2/data.shape[1]  
-    sigmaA = math.sqrt(sigmaeA2)
+    sigmaA = np.round(math.sqrt(sigmaeA2), decimals = 2)
 
-    return sigmaA, sigmae
+    return mu, sigmaA, sigmae
     
 
 
