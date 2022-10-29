@@ -2,11 +2,7 @@ NN4MSP
 ================
 
 This repository contains Python code and data of the paper of Lepore, Palumbo and Sposito 
-*Neural network based control charting for multiple stream processes with an application to 
-HVAC systems in passenger railway vehicles*. Note that this work has been done in the framework 
-of the R&D project of the multiregional investment programme REINForce:REsearch to INspire the Future 
-(CDS000609) with Hitachi Rail STS (https://www.hitachirail.com/), supported by the Italian Ministry 
-for Economic Development (MISE) through the Invitalia agency.
+*Out-of-control signal interpretation in multiple stream processes using artificial neural networks for passenger railway transportation*.
 
 This repository contains the following files:
 
