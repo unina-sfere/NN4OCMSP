@@ -6,10 +6,10 @@ This repository contains Python code and data of the paper of Lepore, Palumbo an
 
 This repository contains the following files:
 
--   NN4MSP/data contains the HVAC data set
--   NN4MSP/dataset.py allows the user to access the HVAC data set from the `NN4MSP`package
--   NN4MSP/functions.py is the source code of the Python package `NN4MSP` 
--   NN4MSP_tutorial.ipynb is the Jupyter Notebook performing all the analysis shown in
+-   NN4OCMSP/data contains the HVAC data set
+-   NN4OCMSP/dataset.py allows the user to access the HVAC data set from the `NN4OCMSP`package
+-   NN4OCMSP/functions.py is the source code of the Python package `NN4OCMSP` 
+-   NN4OCMSP_tutorial.ipynb is the Jupyter Notebook performing all the analysis shown in
     the Section "*A real-case study*" of the paper
 
 Moreover, in the following Section we provide a tutorial to show how to implement in Python 
