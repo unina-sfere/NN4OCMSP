@@ -20,7 +20,7 @@ setup(
         url='https://github.com/unina-sfere/NN4OCMSP',
         license='GNU General Public License v3.0',
         packages=find_packages(),
-        install_requires=['numpy', 'matplotlib', 'sklearn', 'tensorflow', 'keras', 'math'],
+        install_requires=['numpy', 'matplotlib', 'sklearn', 'tensorflow', 'keras'],
         keywords=['Out-of-control signal interpretation', 'Artificial neural networks', 'Multiple stream process', 'Multi-label classification', 'Railway HVAC systems'],
         classifiers=[
             "Intended Audience :: Education",
