@@ -108,10 +108,12 @@ print('standard deviation of the individual stream component', sigmae)
 
 ```
 
-mean 0.08
-standard deviation of the common stream component 0.85
-standard deviation of the individual stream component 0.33
+mean 0.08 
 
+standard deviation of the common stream component 0.85 
+
+standard deviation of the individual stream component 0.33 
+ 
 ``` python
 
 # Plot the ΔT signals from the six train coaches
