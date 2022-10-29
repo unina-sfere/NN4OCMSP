@@ -276,5 +276,6 @@ pred = prediction(train_2_data[a:b,], classifier, scaler, overall_mean, sample_r
 pred[8]
 
 ```
+array([0, 0, 0, 0, 0, 1])
 
 ![](https://github.com/unina-sfere/NN4MSP/blob/main/README_Figure/plot_residuals_PhaseII_train_3.png)
