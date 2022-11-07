@@ -2,7 +2,7 @@ NN4OCMSP
 ================
 
 This repository contains Python code and data of the paper of Lepore, Palumbo and Sposito 
-*Out-of-control signal interpretation in multiple stream processes using artificial neural networks for passenger railway transportation*.
+*Out-of-control signal identification in multiple stream processes using artificial neural networks for passenger railway transportation*.
 
 This repository contains the following files:
 
