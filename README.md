@@ -32,12 +32,6 @@ You can install the development version of the Python package `NN4MSP` from GitH
 pip install git+https://github.com/unina-sfere/NN4OCMSP#egg=NN4OCMSP
 ```
 
-You can install the Python package `NN4OCMSP` using pip
-
-``` python
-pip install NN4OCMSP
-```
-
 ``` python
 
 # Import libraries
