@@ -96,7 +96,7 @@ train_1_data = train_1_data.to_numpy()
 # MSP
 
 s = 6 # number of streams corresponding to the number of train coaches
-n = 5 # subgroup size
+n = 5 # sample size
 
 # Estimate the mean, the process variability and the variability between streams from the Phase I
 # data using standard one-way ANOVA techniques 
@@ -136,7 +136,7 @@ plt.plot(x,train_1_data[a:b,3], label = 'Coach 4', color='green', ls='-', marker
 plt.plot(x,train_1_data[a:b,4], label = 'Coach 5', color='orange', ls='-', marker='+')
 plt.plot(x,train_1_data[a:b,5], label = 'Coach 6', color='violet', ls='-', marker='P')
 # plt.axhline(0, color="red")
-plt.xlabel('Subgroup', fontsize=12)
+plt.xlabel('Sample', fontsize=12)
 plt.ylabel('$ \Delta$T', fontsize=12)
 plt.legend(fontsize=10)
 
@@ -239,7 +239,7 @@ plt.plot(x,train_2_data[a:b,2], label = 'Coach 3', color='red', ls='-.', marker=
 plt.plot(x,train_2_data[a:b,3], label = 'Coach 4', color='green', ls='-', marker='D')
 plt.plot(x,train_2_data[a:b,4], label = 'Coach 5', color='orange', ls='-', marker='+')
 plt.plot(x,train_2_data[a:b,5], label = 'Coach 6', color='violet', ls='-', marker='P')
-plt.xlabel('Subgroup', fontsize=12)
+plt.xlabel('Sample', fontsize=12)
 plt.ylabel('$ \Delta$T', fontsize=12)
 plt.legend(fontsize=10)
 
