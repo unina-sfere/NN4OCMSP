@@ -19,7 +19,7 @@ def dataset_generator(s, n, num_samples, mu, sigmaA, sigmae, alpha_sim):
 
     # Parameters
         s: int, number of streams.
-        n: int, subgroup size.
+        n: int, sample size.
         num_samples: int, number of samples for each simulated OC scenario
         mu: int, process mean   
         sigmaA_std: int, standard deviation of the common stream component 𝐴t
@@ -173,7 +173,7 @@ def control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overa
         xlabel: str, a title for the x axis.
         ylabel: str, a title for the y axis.
         s: int, number of streams.
-        n: int, subgroup size.
+        n: int, sample size.
         mu: int, process mean   
         sigmaA_std: int, standard deviation of the common stream component 𝐴t
         sigmaE_std: int, standard deviation of the individual stream component 
@@ -205,7 +205,7 @@ def control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overa
     ax1.plot(x, overall_mean, color='black', ls='-', marker='o')
     ax1.axhline(UCL_average, color="red", label = "UCL")
     ax1.axhline(-UCL_average, color="red", label = "LCL")
-    plt.xlabel('Subgroup', fontsize=12)
+    plt.xlabel('Sample', fontsize=12)
     plt.ylabel('Overall mean', fontsize=12)    
     plt.tick_params(axis='both', which='major', size = 7, width = 1 , direction = 'out', labelsize = 10)
     plt.xticks(np.arange(1, dim + 1, 1))
@@ -214,7 +214,7 @@ def control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overa
     x = np.arange(1,dim +1,1)
     ax2.plot(x, sample_range, color='black', ls='-', marker='o')
     ax2.axhline(UCL_range, color="red", label = "UCL")
-    plt.xlabel('Subgroup', fontsize=12)
+    plt.xlabel('Sample', fontsize=12)
     plt.ylabel('Range', fontsize=12)
     plt.tick_params(axis='both', which='major', size = 7, width = 1 , direction = 'out', labelsize = 10)
     plt.xticks(np.arange(1, dim +1, 1))
