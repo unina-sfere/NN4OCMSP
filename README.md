@@ -77,8 +77,6 @@ HVAC_data = NN4OCMSP.dataset.load_HVAC_data()
 
 ```
 
-### Phase I
-
 ``` python
 
 # Filter train A for Phase I estimatin
@@ -210,7 +208,7 @@ history = classifier.fit(X_train, y_train, batch_size = batch_size, epochs = epo
 
 ```
 
-### Phase II
+### Train B
 
 
 ``` python
