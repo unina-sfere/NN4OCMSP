@@ -37,9 +37,9 @@ def dataset_generator(s, n, num_samples, mu, sigmaA, sigmae, alpha_sim):
     # MSP control charts    
     num_neg_samples = 100000
     np.random.seed(10)
-    negative_samples = np.random.normal(loc = mu, scale = sigmae, size = (num_neg_samples *n ,s))
+    negative_samples = np.random.normal(loc = mu, scale = sigmaE_std, size = (num_neg_samples *n ,s))
     np.random.seed(11)
-    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA, size = (num_neg_samples * n,1))
+    negative_samples = negative_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_neg_samples * n,1))
     negative_samples = negative_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
     sample_range = negative_samples.max(axis=1) - negative_samples.min(axis=1) 
     UCL_range = np.quantile(sample_range, 1 - alpha_sim)
@@ -51,28 +51,23 @@ def dataset_generator(s, n, num_samples, mu, sigmaA, sigmae, alpha_sim):
     positive_label_all = np.zeros((1, s))
     positive_label = np.zeros((1, s)) 
     
+
     for i in shift:
         for j in range(s):  # -1
             for l in combinations([i for i in range(s)], j + 1):
-                count = 0
-                positive_samples_scenario = np.zeros((1, s+2))
-                while(count < num_samples):
-                    np.random.seed(1 + count) # seed 
-                    positive_samples = np.random.normal(loc = mu, scale = sigmae, size = (num_samples*n,s))
-                    np.random.seed(1 + count + 1)
-                    positive_samples = positive_samples + np.random.normal(loc = mu, scale = sigmaA, size = (num_samples*n,1))
-                    positive_samples[:, np.array(l)] = positive_samples[:, np.array(l)] + i*sigmae
-                    positive_samples = positive_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
+                np.random.seed(j) # seed 
+                positive_samples = np.random.normal(loc = mu, scale = sigmaE_std, size = (num_pos_samples*n,s))
+                np.random.seed(j+1)
+                positive_samples = positive_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_pos_samples*n,1))
+                positive_samples[:, np.array(l)] = positive_samples[:, np.array(l)] + i*sigmaE_std
+                positive_samples = positive_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
                     
-                    overall_mean = positive_samples.mean(axis=1) 
-                    sample_range = positive_samples.max(axis=1) - positive_samples.min(axis=1) 
-                    positive_samples = np.c_[positive_samples,overall_mean,sample_range] 
-                    mask = np.where((sample_range > UCL_range) | (np.abs(overall_mean) > UCL_average))[0]
-                    positive_samples = positive_samples[mask,:]
-                    positive_samples_scenario = np.vstack([positive_samples_scenario, positive_samples])
-                    count = count + len(mask)
-                positive_samples_all = np.vstack([positive_samples_all, positive_samples_scenario[1:(num_samples+1),:]])                
-                positive_label = np.zeros((num_samples, s))
+                overall_mean = positive_samples.mean(axis=1) 
+                sample_range = positive_samples.max(axis=1) - positive_samples.min(axis=1) 
+                positive_samples = np.c_[positive_samples,overall_mean,sample_range] 
+
+                positive_samples_all = np.vstack([positive_samples_all, positive_samples])                
+                positive_label = np.zeros((num_pos_samples, s))
                 positive_label[:,np.array(l)] = 1 
                 positive_label_all = np.vstack([positive_label_all, positive_label])
         
