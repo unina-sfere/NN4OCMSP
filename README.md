@@ -269,7 +269,7 @@ fig_control_chart= control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, a
 
 #  Predict the OC stream(s) at the time of the first signal
 
-pred = prediction(train_2_data[a:b,], classifier, scaler, overall_mean, sample_range)
+pred = prediction(train_2_data[a:b,], classifier, scaler)
 
 # The range control chart starts signaling an OC state from sample 9. 
 pred[8]
