@@ -61,10 +61,6 @@ def dataset_generator(s, n, num_samples, mu, sigmaA, sigmae, alpha_sim):
                 positive_samples = positive_samples + np.random.normal(loc = mu, scale = sigmaA_std, size = (num_pos_samples*n,1))
                 positive_samples[:, np.array(l)] = positive_samples[:, np.array(l)] + i*sigmaE_std
                 positive_samples = positive_samples.transpose().reshape(-1,n).mean(1).reshape(s,-1).transpose()
-                    
-                overall_mean = positive_samples.mean(axis=1) 
-                sample_range = positive_samples.max(axis=1) - positive_samples.min(axis=1) 
-                positive_samples = np.c_[positive_samples,overall_mean,sample_range] 
 
                 positive_samples_all = np.vstack([positive_samples_all, positive_samples])                
                 positive_label = np.zeros((num_pos_samples, s))
