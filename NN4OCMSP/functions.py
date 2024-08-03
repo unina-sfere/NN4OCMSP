@@ -213,7 +213,7 @@ def control_charts(fig_control_chart, s, n, mu, sigmaA, sigmae, alpha_sim, overa
     return fig_control_chart
 
 
-def prediction(data, classifier, scaler, overall_mean, sample_range):
+def prediction(data, classifier, scaler):
     """
    Return the prediction vector associated to each input
     # Parameters
@@ -222,14 +222,11 @@ def prediction(data, classifier, scaler, overall_mean, sample_range):
             trained Multilayer Perceptron classifier model.
         scaler: sklearn.preprocessing._data.StandardScaler object, standardize 
             features by removing the mean and scaling to unit variance.
-        overall_mean: array, overall mean for each sample. 
-        sample_range: array, sample range.
         
     # Returns
        data_pred: array, generates output predictions for the input samples
     """ 
         
-    data = np.c_[data,overall_mean,sample_range]
     data_std = scaler.transform(data)
     data_pred = classifier.predict(data_std)
     data_pred = (data_pred > 0.5) * 1
